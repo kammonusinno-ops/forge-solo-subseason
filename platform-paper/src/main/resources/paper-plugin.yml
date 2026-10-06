@@ -1,0 +1,7 @@
+name: ForgeSoloSubseason
+version: ${version}
+main: com.forgemagic.paper.ForgeSoloSubseasonPlugin
+author: kammonusinno-ops
+description: Forge Magic single-server foundation
+api-version: '26.2'
+load: POSTWORLD

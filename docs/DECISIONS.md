@@ -4,13 +4,17 @@
 
 The user asked to continue. The repository name is treated as the Forge Magic brand, while implementation follows the supplied Paper plugin design. No Forge loader APIs are introduced silently.
 
-## [DECISION] Pin the latest compatible Paper release
+## [DECISION] Pin latest stable Paper 26.2 build 130
 
-Official Paper downloads checked 2026-10-06 list **Paper 26.2 build 129** as the latest stable build. Official Geyser supported versions list Java 26.2 and Bedrock 26.30–26.52; the Geyser download page lists build 1248. The repository pins Minecraft 26.2, Paper build 129, Geyser build 1248 reference, Java 21, and Gradle 8.10.2 in `gradle.properties`.
+The live Paper API was checked on 2026-10-06. Paper 26.2 build 130 is marked `STABLE` and is newer than the previously pinned build 129. The API artifact `io.papermc.paper:paper-api:26.2.build.130-stable` requires JVM 25 or newer. The repository now pins Paper build 130, Java 25, and Gradle 9.0.0. Geyser build 1248 remains the current crossplay reference.
+
+## [DECISION] Arrange a safe WitherHosting upload bundle
+
+The bundle uses `online-mode=true`, disables RCON and command blocks by default, excludes `eula=true`, and does not include credentials, payment data, private keys, or world data. The host panel should retain any assigned server port and manage the startup command.
 
 ## [DECISION] Keep money, class rules, clock, routes, and skill math platform-free
 
-These systems are implemented in core contracts and testable modules without Bukkit imports. Platform adapters will be added only after exact APIs are verified. This prevents the server thread from becoming the business-logic boundary and preserves Bedrock parity.
+These systems are implemented in core contracts and testable modules without Bukkit imports. Platform adapters will be added only after exact APIs are verified.
 
 ## [DECISION] Persist route seeds before reveal
 

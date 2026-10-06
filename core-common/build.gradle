@@ -1,6 +1,6 @@
 dependencies {
     api project(':core-api')
     api 'org.yaml:snakeyaml:2.3'
-    testImplementation platform('org.junit:junit-bom:5.11.0')
+    testImplementation platform('org.junit:junit-bom:5.13.4')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }

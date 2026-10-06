@@ -1,4 +1,11 @@
 dependencies {
     implementation project(':core-api')
     implementation project(':core-common')
+    compileOnly "io.papermc.paper:paper-api:26.2.build.${paper_build}-stable"
+}
+
+processResources {
+    filesMatching('paper-plugin.yml') {
+        expand(version: project.version)
+    }
 }
