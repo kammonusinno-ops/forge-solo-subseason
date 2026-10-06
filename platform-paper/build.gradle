@@ -4,6 +4,8 @@ dependencies {
     implementation project(':module-data')
     implementation project(':module-classes')
     implementation project(':module-skills')
+    implementation project(':module-mobs-coins')
+    implementation project(':module-claims')
     compileOnly "io.papermc.paper:paper-api:26.2.build.${paper_build}-stable"
 }
 processResources {
@@ -15,8 +17,6 @@ jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     dependsOn configurations.runtimeClasspath
     from {
-        configurations.runtimeClasspath.collect { file ->
-            file.isDirectory() ? file : zipTree(file)
-        }
+        configurations.runtimeClasspath.collect { file -> file.isDirectory() ? file : zipTree(file) }
     }
 }
