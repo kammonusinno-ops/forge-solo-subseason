@@ -3,6 +3,7 @@ dependencies {
     implementation project(':core-common')
     implementation project(':module-data')
     implementation project(':module-classes')
+    implementation project(':module-skills')
     compileOnly "io.papermc.paper:paper-api:26.2.build.${paper_build}-stable"
 }
 processResources {

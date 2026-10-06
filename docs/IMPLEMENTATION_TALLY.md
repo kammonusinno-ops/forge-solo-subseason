@@ -10,7 +10,7 @@
 | Persistent class choice | Complete; `/class choose` is permanent and saved |
 | Wood/ore/crafting restrictions | Basic Paper listeners complete; claims integration remains required before public survival launch |
 | Season clock and route roll | Core logic complete; durable route repository and Hall UI remain |
-| Mana and skill formulas | Core math complete; runtime effects and UI remain |
+| Mana and skill formulas/runtime | Core math and executable mana/cooldown runtime complete; Paper skill UI/effects remain |
 | Anti-farm reward calculator and quest progress | Core logic complete; Paper kill event wiring and payout orchestration remain |
 | Signed orbs and pricing | Core signing, expiry, price scaling, and daily cap complete; seller/claim box remains |
 | Boombai math | Interest cap, repayment split, credit score complete; loan storage/UI/collections remain |
@@ -22,7 +22,7 @@ The full prompt remains incomplete in these high-scope areas: PostgreSQL/multi-s
 
 ## Loophole tally
 
-- Fixed: persistence loss, failed-write mutation, missing runtime dependency, unrestricted remote control defaults, implicit EULA acceptance, client minting surface.
+- Fixed: persistence loss, failed-write mutation, missing runtime dependency, unrestricted remote control defaults, implicit EULA acceptance, client minting surface, duplicate payments through ledger idempotency, insufficient-mana cooldown abuse.
 - Remaining high risk: destructive class restrictions without claims, file-backed storage not suitable for multiple servers, no transaction journal, no admin audit viewer, no live Paper test server, and no Bedrock QA.
 
 ## Anthropic check
