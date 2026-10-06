@@ -2,30 +2,30 @@
 
 ## Current milestone
 
-**M5 foundations complete.** M3 class rules, M4 server-owned season/route foundations, and M5 mana/skill math are implemented in platform-free modules with automated tests.
+**M6 foundation complete.** M3 class rules, M4 season/route foundations, M5 mana/skill math, and M6 anti-farm mob rewards plus quest progress are implemented with automated tests.
 
 ## Verified baseline
 
-The latest compatible stable baseline checked on 2026-10-06 is **Minecraft/Paper 26.2, Paper build 129**, Java 21, and Geyser build 1248 as the current crossplay release reference. These values are pinned in `gradle.properties`.
+The latest compatible stable baseline checked on 2026-10-06 is **Minecraft/Paper 26.2, Paper build 129**, Java 21, and Geyser build 1248 as the current crossplay reference. These values are pinned in `gradle.properties`.
 
 ## Done
 
-M0 kickoff and M1 foundation are complete. M2 adds integer-centavo money, idempotent double-entry transfers, MINT/SINK accounts, invariant checks, and a wallet contract. M3 adds permanent class choice and grind-aware wood/ore/crafting/ranged restrictions. M4 adds the fixed server-owned economy clock and one-time seeded route roll. M5 adds the rarity tier multipliers, mana formulas, skill definitions, and cooldown/effect math.
+M0 kickoff, M1 foundation, and M2 ledger foundation are complete. M3 adds permanent class choice and grind-aware restrictions. M4 adds the server-owned economy clock and one-time seeded route roll. M5 adds rarity-aware mana, effect, and cooldown math. M6 adds valid-kill checks, chunk diminishing returns, grinder reduction, AFK/spawner/named-mob exclusion, and quest progress.
 
 ## Tests
 
 ```text
 ./gradlew clean test --no-daemon — PASS
-39 actionable tasks completed successfully
+48 actionable tasks completed successfully
 ```
 
 ## Known gaps
 
-Production PostgreSQL ledger/profile wiring, durable route seeds, Paper bootstrap/event adapters, `/wallet`, skill effects/UI, route skill catalog, claims integration, and Bedrock QA remain incomplete. These are explicit gaps, not hidden stubs.
+Production PostgreSQL wiring, durable route seeds, Paper bootstrap/event adapters, `/wallet`, skill effects/UI, full 75-skill data catalog, claims integration, Bedrock QA, and atomic ledger-backed quest reward issuance remain incomplete and are tracked explicitly.
 
 ## Next milestone
 
-M6 — Mob coins and quests: implement valid-kill classification, diminishing returns, AFK/grinder guards, quest progress, and ledger-backed mint rewards.
+M7 — Orbs and skill pricing: implement tier pricing, daily caps, signed item payload boundary, claim-box fallback, and atomic purchase orchestration through `LedgerService`.
 
 ## Last updated
 
