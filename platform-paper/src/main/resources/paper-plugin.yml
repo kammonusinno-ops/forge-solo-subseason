@@ -11,6 +11,18 @@ commands:
     usage: /wallet
     aliases: [balance]
     permission: forgesolo.wallet
+  pay:
+    description: Pay whole TMT to an online player
+    usage: /pay <player> <amount>
+    permission: forgesolo.pay
+  class:
+    description: Permanently choose your seasonal class
+    usage: /class choose <class>
+    permission: forgesolo.class
 permissions:
   forgesolo.wallet:
+    default: true
+  forgesolo.pay:
+    default: true
+  forgesolo.class:
     default: true

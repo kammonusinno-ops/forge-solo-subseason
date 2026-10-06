@@ -2,6 +2,7 @@ dependencies {
     implementation project(':core-api')
     implementation project(':core-common')
     implementation project(':module-data')
+    implementation project(':module-classes')
     compileOnly "io.papermc.paper:paper-api:26.2.build.${paper_build}-stable"
 }
 processResources {
@@ -9,7 +10,6 @@ processResources {
         expand(version: project.version)
     }
 }
-
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     dependsOn configurations.runtimeClasspath
