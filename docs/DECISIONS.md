@@ -6,15 +6,15 @@ The user asked to continue. The repository name is treated as the Forge Magic br
 
 ## [DECISION] Pin the latest compatible Paper release
 
-Official Paper downloads checked 2026-10-06 list **Paper 26.2 build 129** as the latest stable build. Official Geyser supported versions list Java 26.2 and Bedrock 26.30–26.52, and the Geyser download page lists build 1248. The repository pins Minecraft 26.2, Paper build 129, Geyser build 1248 reference, Java 21, and Gradle 8.10.2 in `gradle.properties`.
+Official Paper downloads checked 2026-10-06 list **Paper 26.2 build 129** as the latest stable build. Official Geyser supported versions list Java 26.2 and Bedrock 26.30–26.52; the Geyser download page lists build 1248. The repository pins Minecraft 26.2, Paper build 129, Geyser build 1248 reference, Java 21, and Gradle 8.10.2 in `gradle.properties`.
 
-## [DECISION] Keep money movement in one service
+## [DECISION] Keep money, class rules, clock, routes, and skill math platform-free
 
-M2 introduces only `LedgerService` as the money-moving boundary. The in-memory implementation is for tests and design validation; durable PostgreSQL ledger wiring remains required before production use.
+These systems are implemented in core contracts and testable modules without Bukkit imports. Platform adapters will be added only after exact APIs are verified. This prevents the server thread from becoming the business-logic boundary and preserves Bedrock parity.
 
-## [DECISION] Keep profile persistence platform-free
+## [DECISION] Persist route seeds before reveal
 
-`ProfileRepository` is an async API in `core-api`; M1 includes an in-memory implementation for deterministic tests and a PostgreSQL schema migration as the production seam.
+M4 rejects a second route roll for a player. The current implementation is an in-memory proof of the invariant; durable storage is required before production.
 
 ## Defaults adopted from section 14
 
