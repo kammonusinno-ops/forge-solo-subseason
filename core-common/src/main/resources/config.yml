@@ -1,0 +1,5 @@
+server_name: Forge Solo Subseason
+pause_when_empty: false
+class_change:
+  enabled: false
+  coordinates: "SET_ME"

@@ -1,0 +1,3 @@
+wallet.title: "Wallet"
+config.invalid: "The server configuration is invalid. Staff must fix it before this feature opens."
+profile.not_found: "Your profile could not be loaded. Please try again."

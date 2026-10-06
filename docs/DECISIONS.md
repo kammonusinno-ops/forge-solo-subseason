@@ -1,16 +1,24 @@
 # Decisions
 
-## [DECISION] M0 does not write gameplay code
+## [DECISION] M0 did not write gameplay code
 
-The prompt's kickoff instructions explicitly require a kickoff report and owner approval before M1. This repository contains architecture and documentation only at M0.
+The prompt's kickoff instructions explicitly required a kickoff report and owner approval before M1. M0 contained architecture and documentation only.
 
-## [DECISION] Treat “Forge” as the project/brand name for now
+## [DECISION] Continue with the specified Paper architecture
 
-The supplied design bible specifies Paper, Bukkit/Paper events, Geyser, Floodgate, and Velocity. The user named the repository `forge-solo-subseason`, which could mean a Forge loader mod. These are materially different runtimes. Until the owner answers, the proposed implementation target remains the specified Paper plugin suite; no Forge loader APIs will be introduced silently.
+The user asked to continue after the M0 report. I am using the documented default: the repository name is treated as the Forge Magic brand, while implementation follows the supplied Paper plugin design. No Forge loader APIs are introduced silently.
 
-## [DECISION] Proposed compatibility baseline
+## [DECISION] Pin Gradle wrapper to 8.10.2
 
-Based on the official Geyser supported-versions page checked 2026-10-06, Geyser supports Java 26.2 and Bedrock 26.30–26.52, and Geyser-Spigot supports Paper/Spigot 1.20.5+ with Java 21+. I propose pinning a specific Paper build only after the loader decision and a live Paper compatibility check. This is a proposal, not an owner decision.
+Gradle 8.10.2 was downloaded and the wrapper was generated during M1. Java 21 is used through the Gradle toolchain.
+
+## [DECISION] Keep profile persistence platform-free
+
+`ProfileRepository` is an async API in `core-api`; M1 includes an in-memory implementation for deterministic tests and a PostgreSQL schema migration as the production seam. Full connection/pool wiring remains a follow-up task rather than being presented as complete.
+
+## [DECISION] Use visible language fallback
+
+Missing translations return `[missing translation: key]` so missing player-facing text cannot silently become blank or misleading.
 
 ## Defaults adopted from section 14
 

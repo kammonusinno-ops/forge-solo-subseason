@@ -1,0 +1,8 @@
+package com.forgemagic.api;
+
+public enum ErrorCode {
+    PROFILE_NOT_FOUND,
+    PROFILE_LOAD_FAILED,
+    PROFILE_SAVE_FAILED,
+    INVALID_CONFIGURATION
+}

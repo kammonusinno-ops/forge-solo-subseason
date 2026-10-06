@@ -2,32 +2,37 @@
 
 ## Current milestone
 
-**M0 — Kickoff.** The repository skeleton and project memory files are prepared. Gameplay code is intentionally not started because the prompt requires owner approval after the kickoff report.
+**M1 — Foundation: substantially complete, with explicit follow-up gaps.** The platform-free API, YAML configuration, language fallback, migration metadata, async profile repository seam, Gradle wrapper, and automated tests are implemented.
 
 ## Done
 
 - Preserved the supplied prompt at `docs/forge-magic-solo-prompt.md`.
 - Copied Design Bible section 6 to `docs/SPEC.md`.
 - Added Gradle multi-module skeleton and Java 21 toolchain configuration.
+- Pinned and generated Gradle wrapper 8.10.2.
+- Added platform-free `Profile`, `ProfileRepository`, `Result`, and `ErrorCode` contracts.
+- Added YAML configuration loading and visible missing-translation fallback.
+- Added async in-memory profile repository for deterministic foundation tests.
+- Added initial PostgreSQL profile schema migration.
 - Added CI workflow for `./gradlew test`.
-- Added Contracts v0, decisions, risks, open questions, and kickoff report.
+- Added M1 tests for profile persistence, missing profiles, migrations, config, language fallback, and API behavior.
 
-## Not done / known gaps
+## Known gaps
 
-- No Gradle wrapper has been generated in this sandbox because Gradle is not installed.
-- No gameplay implementation or server artifact exists by design.
-- Exact Paper version must be pinned after the owner resolves the Forge-versus-Paper loader question.
-- Bedrock behavior has not been tested; this is an M0 documentation-only repository.
+- Production PostgreSQL repository wiring and migration execution are not complete; the current repository is a testable seam plus SQL migration.
+- No Paper plugin bootstrap or server boot test exists yet; Paper APIs remain unverified until the exact loader/version is pinned.
+- Redis is not wired; it is optional for the single-server MVP foundation.
+- Bedrock behavior has not been tested; no platform UI exists yet.
 
-## Next action after approval
+## Tests
 
-Start M1 in the smallest steps: install/pin Gradle wrapper, add dependency versions, implement config and i18n abstractions, add migration runner, then add async profile load/save with tests.
-
-## Verification commands
-
-```bash
-./gradlew test
+```text
+./gradlew clean test --no-daemon — PASS
 ```
+
+## Next milestone
+
+M2 — Ledger and wallet: implement the double-entry `LedgerService`, idempotency, MINT/SINK accounts, invariant tests, and the platform-neutral wallet service before adding any command listener.
 
 ## Last updated
 
