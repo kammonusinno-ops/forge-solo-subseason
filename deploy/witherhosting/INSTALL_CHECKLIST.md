@@ -6,7 +6,16 @@
 - [ ] `plugins/forge-solo-subseason.jar` uploaded
 - [ ] `server.properties` uploaded and host port preserved
 - [ ] EULA reviewed and accepted through the host panel
-- [ ] First boot log contains `Forge Solo Subseason foundation enabled`
+- [ ] First boot log contains `Forge Solo Subseason enabled`
 - [ ] Backup created before adding a world or third-party plugins
+- [ ] `plugins/ForgeSoloSubseason/ledger.properties` backed up
+- [ ] `plugins/ForgeSoloSubseason/classes.properties` backed up
+- [ ] Claims provider and adapter installed before public survival
 - [ ] Geyser and Floodgate installed only from official releases if Bedrock is required
 - [ ] No credentials or payment data uploaded to the repository or bundle
+- [ ] If enabling Z.com PostgreSQL: `FORGE_DB_URL`, `FORGE_DB_USER`, and `FORGE_DB_PASSWORD` set as host secrets
+- [ ] Z.com URL uses `sslmode=verify-full` or `sslmode=require`
+- [ ] Z.com schema migrations applied and backup verified before switching writes
+- [ ] Mob bounty schedule reviewed in `plugins/ForgeSoloSubseason/config.yml`
+- [ ] Test `/wallet`, `/pay`, `/class choose`, and a normal non-spawner mob kill
+- [ ] Confirm spawner, named, AFK, grinder, and daily-cap behavior in staging

@@ -14,17 +14,28 @@ This directory is arranged for a **Paper Java server** on WitherHosting. It cont
 8. Install a supported claims plugin and its adapter before public survival play. Until configured, restricted class block breaks fail closed for safety.
 9. Install Geyser/Floodgate separately from official releases only if Bedrock cross-play is needed.
 
+## Z.com database
+
+The repository includes a Z.com PostgreSQL contract and schema, but the live JAR remains on the safe local ledger until the Z.com JDBC URL and credentials are configured and the production adapter is tested. See `docs/ZCOM_DATABASE.md`. Never upload database passwords in this ZIP.
+
 ## Available commands
 
 - `/wallet` or `/balance` — read the durable TMT balance.
 - `/pay <online-player> <whole-positive-TMT>` — transfer money atomically through the ledger.
 - `/class choose <lumber|miner|craftsman|marksman|healer>` — make the permanent class choice.
 
-Payments have no offline target, no self-payment, no decimal amount, and no client-controlled mint input. Class choices cannot be changed by players.
+## Balanced mob bounty schedule
 
-## Mob rewards
+| Mob | Base bounty |
+|---|---:|
+| Zombie, Skeleton, Spider | 0.10 TMT |
+| Creeper | 0.25 TMT |
+| Enderman | 0.50 TMT |
+| Witch | 0.60 TMT |
+| Blaze, Wither Skeleton | 0.80 TMT |
+| Elder Guardian, Warden | 10.00 TMT |
 
-Valid player kills can mint TMT through the server ledger. The runtime excludes named/leashed mobs and AFK killers, applies chunk/hour diminishing returns and grinder reduction, and caps mob minting at 20,000 TMT per player per UTC day. Spawner provenance and claims-aware mob rules still require the next provider integrations.
+The schedule is configurable in `plugins/ForgeSoloSubseason/config.yml`. Spawner mobs, named/leashed mobs, AFK kills, and invalid kills pay nothing. The default anti-monopoly controls are a 20,000 TMT player/day cap, 100,000 TMT server/day cap, 20% maximum player share of server bounty issuance, chunk/hour diminishing returns, and grinder reduction above 40 kills/minute.
 
 ## Important limitations
 

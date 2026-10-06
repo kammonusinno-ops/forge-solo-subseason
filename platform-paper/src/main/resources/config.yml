@@ -1,0 +1,24 @@
+database:
+  provider: postgresql
+  url: ${FORGE_DB_URL:-}
+  user: ${FORGE_DB_USER:-}
+  password: ${FORGE_DB_PASSWORD:-}
+  require-tls: true
+
+economy:
+  mob-bounties-tmt:
+    ZOMBIE: 0.10
+    SKELETON: 0.10
+    SPIDER: 0.10
+    CREEPER: 0.25
+    ENDERMAN: 0.50
+    WITCH: 0.60
+    BLAZE: 0.80
+    WITHER_SKELETON: 0.80
+    ELDER_GUARDIAN: 10.00
+    WARDEN: 10.00
+  mob-daily-player-cap-tmt: 20000.00
+  mob-daily-server-cap-tmt: 100000.00
+  mob-player-share-cap-percent: 20
+  mob-grinder-threshold-per-minute: 40
+  mob-grinder-multiplier: 0.10

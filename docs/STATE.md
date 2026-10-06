@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Continued implementation: wallet, commands, restrictions, economy foundations, and skill runtime.** The Paper plugin has durable wallet storage, `/wallet`, `/balance`, `/pay`, persistent `/class choose`, wood/ore restriction listeners, and crafting-table enforcement. Core orb signing/pricing, Boombai math, leveling math, and executable mana/cooldown skill runtime are implemented and tested.
+**Z.com database contract and balanced mob bounties.** The repository is cleanly inventoried and the plugin now has configurable mob bounties, spawner provenance tracking, global/player issuance caps, player-share caps, and anti-grinder controls. Z.com PostgreSQL environment validation and wallet/transfer schema are prepared without committing credentials.
 
 ## Host baseline
 
@@ -11,19 +11,14 @@ Minecraft/Paper 26.2 build 130, Java 25+ for the Paper plugin, and Geyser refere
 ## Tests
 
 ```text
-Java 21: ./gradlew clean test --no-daemon — PASS
-Java 25: ./gradlew :platform-paper:jar --no-daemon — PASS
-Latest full suite before skill runtime: 64 tasks passed
+Java 21: ./gradlew clean test --no-daemon — pending latest bounty/config changes
+Java 25: ./gradlew :platform-paper:jar --no-daemon — pending latest bounty/config changes
 ```
 
 ## Known blockers
 
-The plugin is installable and has real wallet/class behavior, but public survival launch still requires claims integration before destructive class restrictions, a transaction journal/audit trail, database persistence for network scale, full skill effects/UI, mob/quest payout wiring, loan/orb runtime, ascension/subclasses, Bedrock forms, and live host QA. The detailed tally is in `docs/IMPLEMENTATION_TALLY.md`.
-
-## Next work
-
-Continue implementing runtime systems in priority order: claims-safe restrictions, ledger transaction history, skill effects and action-bar UI, mob reward event wiring, quest rewards, orb seller, Boombai lifecycle, leveling persistence, and Bedrock parity.
+The live plugin still uses the safe local ledger until the Z.com JDBC URL, credentials, PostgreSQL adapter, migrations, backups, and reconciliation are supplied and tested. Claims remain fail closed without a provider adapter. Public launch also requires full skill effects/UI, quest and loan runtime, Bedrock forms, and live host QA. See `docs/IMPLEMENTATION_TALLY.md` and `docs/ZCOM_DATABASE.md`.
 
 ## Last updated
 
-2026-10-06
+2026-10-07
