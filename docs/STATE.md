@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**M6 foundation complete; WitherHosting package prepared.** M3 class rules, M4 season/route foundations, M5 mana/skill math, and M6 anti-farm mob rewards plus quest progress are implemented with automated tests. A bootable Paper foundation plugin and upload bundle are now arranged under `deploy/witherhosting/`.
+**Wallet integration and loophole audit complete.** The Paper plugin now loads a durable atomic file-backed ledger from its data folder and exposes a real read-only `/wallet` command. The upload bundle has been rebuilt from this plugin.
 
 ## Verified host baseline
 
@@ -10,7 +10,7 @@ The latest stable Paper baseline checked on 2026-10-06 is **Minecraft/Paper 26.2
 
 ## Done
 
-M0 kickoff, M1 foundation, M2 ledger foundation, M3 restrictions, M4 clock/routes, M5 skill math, and M6 anti-farm/quest foundations are complete. The repository also contains a host-ready Paper JAR, Paper server JAR, safe `server.properties`, and WitherHosting upload documentation.
+M0 kickoff, M1 foundation, M2 ledger foundation, M3 restrictions, M4 clock/routes, M5 skill math, and M6 anti-farm/quest foundations are complete. The Paper plugin now uses `FileLedgerService`, persists balances and idempotency keys under its plugin data folder, and registers `/wallet` and `/balance` aliases. The crash-safety audit added rollback on persistence failure and filesystem-safe replacement fallback. The WitherHosting bundle is prepared under `deploy/witherhosting/`.
 
 ## Tests
 
@@ -21,7 +21,7 @@ Java 25: ./gradlew :platform-paper:jar --no-daemon — PASS
 
 ## Known gaps
 
-The uploaded plugin is currently a foundation bootstrap. Production PostgreSQL wiring, durable route seeds, `/wallet`, skill effects/UI, full route skill catalog, Paper gameplay listeners, claims integration, Geyser/Floodgate forms, and Bedrock QA remain incomplete and explicitly tracked.
+The JAR is a real, installable foundation plugin, not the entire prompt suite. Production PostgreSQL/multi-server wiring, `/pay`, admin/audit tooling, durable route seeds, gameplay listeners, skill effects/UI, full route skill catalog, claims integration, loans, Bedrock forms, and manual host QA remain incomplete. See `docs/LOOPHOLE_AUDIT.md`.
 
 ## Next milestone
 

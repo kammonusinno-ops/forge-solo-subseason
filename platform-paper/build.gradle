@@ -1,11 +1,21 @@
 dependencies {
     implementation project(':core-api')
     implementation project(':core-common')
+    implementation project(':module-data')
     compileOnly "io.papermc.paper:paper-api:26.2.build.${paper_build}-stable"
 }
-
 processResources {
     filesMatching('paper-plugin.yml') {
         expand(version: project.version)
+    }
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.collect { file ->
+            file.isDirectory() ? file : zipTree(file)
+        }
     }
 }

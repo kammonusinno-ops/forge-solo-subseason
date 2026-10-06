@@ -10,11 +10,18 @@ This directory is arranged for a **Paper Java server** on WitherHosting. It cont
 4. Upload `plugins/forge-solo-subseason.jar` into the server's `plugins/` directory.
 5. Upload `server.properties` to the server root. Keep any host-provided port value if WitherHosting assigns a non-default port.
 6. Start once so Paper generates its folders and asks for the EULA. Review and accept Mojang's EULA in the host panel; this bundle intentionally does not include `eula=true`.
-7. Stop, upload the optional Geyser/Floodgate plugins from their official release pages if Bedrock cross-play is needed, then start again.
+7. The plugin creates `plugins/ForgeSoloSubseason/ledger.properties` on first boot. Back up this file with the server backups; it contains wallet balances and idempotency records.
+8. Stop, upload the optional Geyser/Floodgate plugins from their official release pages if Bedrock cross-play is needed, then start again.
+
+## Current commands
+
+- `/wallet` or `/balance` — show the player’s durable TMT balance.
+
+The wallet command is read-only. No client-provided amount, mint command, RCON command, or admin economy shortcut is included.
 
 ## Important limitations
 
-The uploaded plugin is the current **foundation bootstrap**. It logs a successful enable but does not yet expose `/wallet`, class-change menus, Bedrock forms, or the full gameplay suite. Those systems are still being implemented in the repository.
+The uploaded plugin is the current **safe foundation slice**. It has real durable wallet storage and Paper bootstrap, but it does not yet expose `/pay`, class-change menus, Bedrock forms, or the full gameplay suite. Those systems are still being implemented in the repository.
 
 Do not upload `.gradle`, `build` directories, database credentials, Redis credentials, private keys, or local world data from the source checkout. Do not disable `online-mode` for a public server.
 

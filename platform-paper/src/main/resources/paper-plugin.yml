@@ -2,6 +2,15 @@ name: ForgeSoloSubseason
 version: ${version}
 main: com.forgemagic.paper.ForgeSoloSubseasonPlugin
 author: kammonusinno-ops
-description: Forge Magic single-server foundation
+description: Forge Magic server-authoritative survival economy foundation
 api-version: '26.2'
 load: POSTWORLD
+commands:
+  wallet:
+    description: Show your Tomaterrency wallet balance
+    usage: /wallet
+    aliases: [balance]
+    permission: forgesolo.wallet
+permissions:
+  forgesolo.wallet:
+    default: true
