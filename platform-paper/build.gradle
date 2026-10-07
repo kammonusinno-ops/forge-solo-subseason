@@ -4,6 +4,7 @@ dependencies {
     implementation project(':module-data')
     implementation project(':module-classes')
     implementation project(':module-skills')
+    implementation project(':module-leveling')
     implementation project(':module-mobs-coins')
     implementation project(':module-claims')
     compileOnly "io.papermc.paper:paper-api:26.2.build.${paper_build}-stable"

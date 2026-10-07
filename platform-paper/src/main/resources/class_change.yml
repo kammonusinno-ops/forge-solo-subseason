@@ -1,0 +1,15 @@
+hall:
+  enabled: false
+  world: "SET_ME"
+  x: 0
+  y: 0
+  z: 0
+  radius: 12
+  confirmation-seconds: 3
+  notice: "Class change has officially started. Enter the Hall of Tadhana to choose permanently."
+booths:
+  lumber: "WOOD BOOTH"
+  miner: "ORE BOOTH"
+  craftsman: "CRAFT BOOTH"
+  marksman: "RANGED BOOTH"
+  healer: "HEALING BOOTH"

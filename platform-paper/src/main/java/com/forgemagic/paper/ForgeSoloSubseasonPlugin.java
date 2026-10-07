@@ -11,6 +11,8 @@ import com.forgemagic.mobs.KillContext;
 import com.forgemagic.mobs.MobBaseValues;
 import com.forgemagic.mobs.MobRewardCalculator;
 import com.forgemagic.mobs.MobRewardTracker;
+import com.forgemagic.mobs.EntityCrammingGuard;
+import com.forgemagic.skills.ContentCatalog;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
@@ -23,6 +25,9 @@ import org.bukkit.Material;
 import org.bukkit.command.*;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Tameable;
+import org.bukkit.entity.Entity;
+import org.bukkit.Chunk;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -35,26 +40,28 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ForgeSoloSubseasonPlugin extends JavaPlugin implements CommandExecutor, Listener {
- private ExecutorService ioExecutor; private FileLedgerService ledger; private FileClassRepository classes; private ClaimsService claims; private final MobRewardTracker rewards=new MobRewardTracker(); private final Set<UUID> spawnerMobs=ConcurrentHashMap.newKeySet(); private int mobPlayerCap; private int mobServerCap; private int mobSharePercent; private int grinderThreshold; private double grinderMultiplier;
+ private ExecutorService ioExecutor; private FileLedgerService ledger; private FileClassRepository classes; private ClaimsService claims; private final MobRewardTracker rewards=new MobRewardTracker(); private final Set<UUID> spawnerMobs=ConcurrentHashMap.newKeySet(); private int mobPlayerCap; private int mobServerCap; private int mobSharePercent; private int grinderThreshold; private double grinderMultiplier; private boolean antiCramming; private int crammingThreshold; private boolean protectNamedOrTamed;
  private static final Map<String,ClassId> CLASS_NAMES=Map.of("lumber",ClassId.LUMBER,"miner",ClassId.MINER,"craftsman",ClassId.CRAFTSMAN,"marksman",ClassId.MARKSMAN,"healer",ClassId.HEALER);
  @Override public void onEnable(){
-  saveDefaultConfig(); mobPlayerCap=tmtCents("economy.mob-daily-player-cap-tmt",20000); mobServerCap=tmtCents("economy.mob-daily-server-cap-tmt",100000); mobSharePercent=Math.max(1,Math.min(100,getConfig().getInt("economy.mob-player-share-cap-percent",20))); grinderThreshold=Math.max(1,getConfig().getInt("economy.mob-grinder-threshold-per-minute",40)); grinderMultiplier=Math.max(0,Math.min(1,getConfig().getDouble("economy.mob-grinder-multiplier",0.10)));
+  saveDefaultConfig(); saveResource("class_change.yml",false); antiCramming=getConfig().getBoolean("anti-cramming.enabled",true); crammingThreshold=Math.max(1,getConfig().getInt("anti-cramming.threshold",15)); protectNamedOrTamed=getConfig().getBoolean("anti-cramming.protect-named-or-tamed",true); mobPlayerCap=tmtCents("economy.mob-daily-player-cap-tmt",20000); mobServerCap=tmtCents("economy.mob-daily-server-cap-tmt",100000); mobSharePercent=Math.max(1,Math.min(100,getConfig().getInt("economy.mob-player-share-cap-percent",20))); grinderThreshold=Math.max(1,getConfig().getInt("economy.mob-grinder-threshold-per-minute",40)); grinderMultiplier=Math.max(0,Math.min(1,getConfig().getDouble("economy.mob-grinder-multiplier",0.10)));
   ioExecutor=Executors.newFixedThreadPool(2,r->{Thread t=new Thread(r,"forge-solo-io");t.setDaemon(true);return t;});
   try{ledger=new FileLedgerService(getDataFolder().toPath().resolve("ledger.properties"),ioExecutor);classes=new FileClassRepository(getDataFolder().toPath().resolve("classes.properties"));}
   catch(IOException e){getLogger().severe("Persistent data failed; disabling safely: "+e.getMessage());getServer().getPluginManager().disablePlugin(this);return;}
-  claims=new FailClosedClaimsService(); getLogger().warning("Claims provider: "+claims.providerName()+"; restricted destructive breaks fail closed.");
-  for(String c:new String[]{"wallet","pay","class"}) if(getCommand(c)!=null)getCommand(c).setExecutor(this);
-  getServer().getPluginManager().registerEvents(this,this); getLogger().info("Forge Solo Subseason enabled: wallet, payments, classes, claims boundary, mob rewards.");
+  claims=new FailClosedClaimsService(); getLogger().warning("Claims provider: "+claims.providerName()+"; restricted destructive breaks fail closed."); if(!getConfig().getBoolean("hall.enabled",false))getLogger().warning("Hall of Tadhana is disabled until hall coordinates are configured.");
+  for(String c:new String[]{"wallet","pay","class","skills"}) if(getCommand(c)!=null)getCommand(c).setExecutor(this);
+  getServer().getPluginManager().registerEvents(this,this); if(antiCramming)getServer().getScheduler().runTaskTimer(this,this::enforceCramming,20L,Math.max(20L,getConfig().getLong("anti-cramming.interval-ticks",20L))); getLogger().info("Forge Solo Subseason enabled: wallet, payments, classes, claims boundary, mob rewards, anti-cramming.");
  }
  @Override public void onDisable(){if(ioExecutor!=null)ioExecutor.shutdown();}
  @Override public boolean onCommand(CommandSender s,Command c,String label,String[] a){
   if(!(s instanceof Player p)){s.sendMessage("This command is player-only.");return true;}
   if(c.getName().equalsIgnoreCase("wallet")||c.getName().equalsIgnoreCase("balance")){ledger.balance(account(p)).thenAccept(m->sync(p,"Wallet: "+money(m.centavos())));return true;}
-  if(c.getName().equalsIgnoreCase("class")){if(a.length!=2||!a[0].equalsIgnoreCase("choose")||!CLASS_NAMES.containsKey(a[1].toLowerCase(Locale.ROOT))){p.sendMessage("Usage: /class choose <lumber|miner|craftsman|marksman|healer>");return true;} try{if(classes.choose(p.getUniqueId(),CLASS_NAMES.get(a[1].toLowerCase(Locale.ROOT))))p.sendMessage("Class chosen permanently: "+a[1]);else p.sendMessage("Your class is already chosen.");}catch(IOException e){p.sendMessage("Class choice could not be saved; nothing changed.");}return true;}
+  if(c.getName().equalsIgnoreCase("skills")){var cls=classes.get(p.getUniqueId()); if(cls==ClassId.NOVICE){p.sendMessage("Choose a class first.");return true;} p.sendMessage("Skill catalog: "+ContentCatalog.routeSkills(cls).size()+" route skills + "+ContentCatalog.subclassSkills(cls).size()+" subclass skills. Skill runtime is server-authoritative.");return true;}
+  if(c.getName().equalsIgnoreCase("class")){if(a.length==1&&a[0].equalsIgnoreCase("hall")){if(!getConfig().getBoolean("hall.enabled",false)){p.sendMessage("Hall of Tadhana is not configured yet. An owner must set hall.enabled and coordinates.");}else p.sendMessage("Hall of Tadhana: "+getConfig().getString("hall.world")+" "+getConfig().getInt("hall.x")+", "+getConfig().getInt("hall.y")+", "+getConfig().getInt("hall.z")+". Preview booths are safe; class choice is permanent.");return true;} if(a.length!=2||!a[0].equalsIgnoreCase("choose")||!CLASS_NAMES.containsKey(a[1].toLowerCase(Locale.ROOT))){p.sendMessage("Usage: /class hall | /class choose <lumber|miner|craftsman|marksman|healer>");return true;} try{if(classes.choose(p.getUniqueId(),CLASS_NAMES.get(a[1].toLowerCase(Locale.ROOT))))p.sendMessage("Class chosen permanently: "+a[1]);else p.sendMessage("Your class is already chosen.");}catch(IOException e){p.sendMessage("Class choice could not be saved; nothing changed.");}return true;}
   if(c.getName().equalsIgnoreCase("pay")){if(a.length!=2){p.sendMessage("Usage: /pay <player> <amount>");return true;} Player target=getServer().getPlayerExact(a[0]); if(target==null||target.equals(p)){p.sendMessage("That player is not online.");return true;} long cents;try{cents=Math.multiplyExact(Long.parseLong(a[1]),100);}catch(Exception e){p.sendMessage("Amount must be a whole positive TMT value.");return true;}if(cents<=0){p.sendMessage("Amount must be positive.");return true;} LedgerTransfer t=new LedgerTransfer(account(p),account(target),new com.forgemagic.api.Money(cents),"PAY:"+p.getUniqueId()+":"+UUID.randomUUID(),"PLAYER:PAY"); ledger.transfer(t).thenAccept(r->sync(p,r.isSuccess()?"Paid "+a[1]+" TMT to "+target.getName():"Payment failed: "+r.error(),()->{if(r.isSuccess())target.sendMessage("You received "+a[1]+" TMT from "+p.getName());}));return true;}
   return false;
  }
  @EventHandler public void onMove(PlayerMoveEvent e){if(e.getTo()!=null&&!e.getFrom().toVector().equals(e.getTo().toVector()))rewards.moved(e.getPlayer().getUniqueId());}
+ private void enforceCramming(){for(var world:getServer().getWorlds())for(Chunk chunk:world.getLoadedChunks()){var mobs=java.util.Arrays.stream(chunk.getEntities()).filter(e->e instanceof LivingEntity&&!(e instanceof Player)).map(e->(LivingEntity)e).toList();if(!EntityCrammingGuard.shouldPurge(mobs.size(),crammingThreshold))continue;int removed=0;for(LivingEntity mob:mobs){if(protectNamedOrTamed&&(mob.getCustomName()!=null||mob instanceof Tameable tame&&tame.isTamed()))continue;mob.remove();removed++;}if(removed>0)getLogger().warning("Anti-cramming removed "+removed+" mobs from "+world.getName()+" chunk "+chunk.getX()+","+chunk.getZ());}}
  @EventHandler public void onSpawn(CreatureSpawnEvent e){if(e.getSpawnReason()==SpawnReason.SPAWNER)spawnerMobs.add(e.getEntity().getUniqueId());}
  @EventHandler public void onBreak(BlockBreakEvent e){ClassId cls=classes.get(e.getPlayer().getUniqueId());Material m=e.getBlock().getType();BlockKind kind=wood(m)?BlockKind.WOOD:ore(m)?BlockKind.ORE:BlockKind.OTHER;if((kind==BlockKind.WOOD&&cls!=ClassId.LUMBER)||(kind==BlockKind.ORE&&cls!=ClassId.MINER)){if(!claims.canModify(e.getPlayer().getUniqueId(),new ClaimsService.ClaimBlock(e.getBlock().getWorld().getName(),e.getBlock().getX(),e.getBlock().getY(),e.getBlock().getZ()))){e.setCancelled(true);e.getPlayer().sendMessage("Your class cannot break this block here: a protection claim is required.");}}}
  @EventHandler public void onInteract(PlayerInteractEvent e){if(e.getClickedBlock()!=null&&e.getClickedBlock().getType()==Material.CRAFTING_TABLE&&classes.get(e.getPlayer().getUniqueId())!=ClassId.CRAFTSMAN){e.setCancelled(true);e.getPlayer().sendMessage("Only Craftsmen can use crafting tables.");}}

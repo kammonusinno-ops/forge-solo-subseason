@@ -19,10 +19,16 @@ commands:
     description: Permanently choose your seasonal class
     usage: /class choose <class>
     permission: forgesolo.class
+  skills:
+    description: Show the server-authoritative skill catalog
+    usage: /skills
+    permission: forgesolo.skills
 permissions:
   forgesolo.wallet:
     default: true
   forgesolo.pay:
     default: true
   forgesolo.class:
+    default: true
+  forgesolo.skills:
     default: true
