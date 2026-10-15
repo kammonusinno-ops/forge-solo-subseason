@@ -8,17 +8,21 @@ The user asked to continue. The repository name is treated as the Forge Magic br
 
 The live Paper API was checked on 2026-10-06. Paper 26.2 build 130 is marked `STABLE` and is newer than the previously pinned build 129. The API artifact `io.papermc.paper:paper-api:26.2.build.130-stable` requires JVM 25 or newer. The repository now pins Paper build 130, Java 25, and Gradle 9.0.0. Geyser build 1248 remains the current crossplay reference.
 
-## [DECISION] Arrange a safe WitherHosting upload bundle
-
-The bundle uses `online-mode=true`, disables RCON and command blocks by default, excludes `eula=true`, and does not include credentials, payment data, private keys, or world data. The host panel should retain any assigned server port and manage the startup command.
-
 ## [DECISION] Keep money, class rules, clock, routes, and skill math platform-free
 
 These systems are implemented in core contracts and testable modules without Bukkit imports. Platform adapters will be added only after exact APIs are verified.
 
-## [DECISION] Persist route seeds before reveal
+## [DECISION] Vanilla-first skill redesign — 2026-10-15
 
-M4 rejects a second route roll for a player. The current implementation is an in-memory proof of the invariant; durable storage is required before production.
+Skill definitions now carry a `SkillAction`, display name, and description. The catalog uses bounded vanilla actions such as Haste, Night Vision, Speed, Regeneration, Healing, Purify, Arrow Accuracy, Slow, Root, Tree Fell, Ore Sense, Area Mine, Furnace Speed, Tool Repair, and Material Bonus. No catalog entry promises client-only controls, invulnerability, one-shot kills, or class-bypass behavior. Mythic catalog entries use long cooldowns, and old five-argument constructors remain compatible for tests.
+
+## [DECISION] Offline-owner absolute defense — 2026-10-15
+
+A player may register one cubic base region with `/baseguard set <1-64>`. The region is protected only while the owner is offline, so the owner retains access while online. Protection covers breaking, placement, interaction, fire, pistons, and explosions. The registry is atomic file-backed. This requested purge-defense feature supplements, but does not replace, a real claims provider.
+
+## [DECISION] Termux source layout — 2026-10-15
+
+The source checkout does not carry host server binaries or a generated 63 MB ZIP. Termux receives a single self-contained plugin JAR from `termux/build-plugin.sh`; server runtime data remains on the Android device and is ignored.
 
 ## Defaults adopted from section 14
 

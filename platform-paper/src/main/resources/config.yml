@@ -29,6 +29,12 @@ anti-cramming:
   threshold: 15
   interval-ticks: 20
   protect-named-or-tamed: true
+offline-defense:
+  enabled: true
+  max-radius: 64
+  cancel-explosions: true
+  cancel-pistons: true
+  cancel-fire: true
 hall:
   enabled: false
   world: "SET_ME"
@@ -36,3 +42,8 @@ hall:
   y: 0
   z: 0
   radius: 12
+skills:
+  pvp-scale: 0.6
+  max-active-slots: 4
+  allow-client-key-chords: false
+  effects-must-use-vanilla-actions: true

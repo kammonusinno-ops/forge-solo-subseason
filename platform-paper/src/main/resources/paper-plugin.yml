@@ -23,6 +23,10 @@ commands:
     description: Show the server-authoritative skill catalog
     usage: /skills
     permission: forgesolo.skills
+  baseguard:
+    description: Enable absolute offline-owner defense around your base
+    usage: /baseguard set <1-64> | /baseguard status | /baseguard off
+    permission: forgesolo.baseguard
 permissions:
   forgesolo.wallet:
     default: true
@@ -31,4 +35,6 @@ permissions:
   forgesolo.class:
     default: true
   forgesolo.skills:
+    default: true
+  forgesolo.baseguard:
     default: true

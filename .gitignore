@@ -6,3 +6,9 @@ run/
 .idea/
 .vscode/
 .DS_Store
+termux/out/
+termux/server/
+termux/world/
+termux/plugins/ForgeSoloSubseason/
+*.log
+eula.txt

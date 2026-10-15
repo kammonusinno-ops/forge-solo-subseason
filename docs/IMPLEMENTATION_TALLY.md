@@ -1,4 +1,4 @@
-# Implementation Tally — 2026-10-07
+# Implementation Tally — 2026-10-15
 
 ## Completed and tested
 
@@ -30,7 +30,7 @@ No online server can have zero risk. This pass removes the identified implementa
 
 ## Still incomplete
 
-The full prompt remains incomplete in these high-scope areas: real claims-plugin adapter, live Z.com PostgreSQL adapter/migration execution, transaction history/audit dashboard, full effect implementation for all generated skills, durable route/subclass/player progression, orb seller atomic purchase UI, Boombai loan lifecycle, bank/central bank, full quests, zones/fatigue, ascension/Soul Gods, market/contracts/companies, opt-in PvP, teleport/homes, moderation/admin dashboards, Geyser/Floodgate forms, and manual WitherHosting QA.
+The full prompt remains incomplete in these high-scope areas: real claims-plugin adapter, live Z.com PostgreSQL adapter/migration execution, transaction history/audit dashboard, full effect implementation for all generated skills, durable route/subclass/player progression, orb seller atomic purchase UI, Boombai loan lifecycle, bank/central bank, full quests, zones/fatigue, ascension/Soul Gods, market/contracts/companies, opt-in PvP, teleport/homes, moderation/admin dashboards, and Geyser/Floodgate forms.
 
 ## Loophole tally
 

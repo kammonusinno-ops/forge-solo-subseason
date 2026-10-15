@@ -1,0 +1,4 @@
+package com.forgemagic.data;
+import static org.junit.jupiter.api.Assertions.*;
+import java.nio.file.Files;import java.util.Set;import java.util.UUID;import org.junit.jupiter.api.Test;
+class FileBaseDefenseRepositoryTest { @Test void protectsOnlyWhenOwnerOffline()throws Exception{var f=Files.createTempFile("base","properties");var r=new FileBaseDefenseRepository(f);var owner=UUID.randomUUID();r.set(owner,"world",0,64,0,8);assertTrue(r.protecting("world",2,64,2,Set.of()).isPresent());assertTrue(r.protecting("world",2,64,2,Set.of(owner)).isEmpty());assertTrue(r.protecting("world",20,64,2,Set.of()).isEmpty());} @Test void radiusIsBounded()throws Exception{var r=new FileBaseDefenseRepository(Files.createTempFile("base","properties"));assertThrows(IllegalArgumentException.class,()->r.set(UUID.randomUUID(),"world",0,0,0,65));} }

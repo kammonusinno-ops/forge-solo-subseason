@@ -1,0 +1,10 @@
+# Copy to the Termux Paper server root as server.properties after reviewing values.
+motd=Forge Solo Subseason Test Server
+enforce-whitelist=true
+online-mode=true
+enable-rcon=false
+enable-command-block=false
+difficulty=normal
+spawn-protection=0
+view-distance=8
+simulation-distance=6

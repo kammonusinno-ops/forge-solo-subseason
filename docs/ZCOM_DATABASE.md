@@ -4,7 +4,7 @@ The repository is prepared for the decision to host the database on Z.com, but n
 
 ## Required host environment
 
-Set these in the WitherHosting/server environment or secret manager:
+Set these in the Termux/Paper server environment or a local secret manager:
 
 ```text
 FORGE_DB_URL=jdbc:postgresql://<z-com-host>:5432/<database>?sslmode=verify-full

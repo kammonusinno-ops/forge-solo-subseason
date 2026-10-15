@@ -1,0 +1,7 @@
+out/
+server/
+world/
+plugins/ForgeSoloSubseason/
+*.log
+eula.txt
+server.properties
